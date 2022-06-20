@@ -1,4 +1,17 @@
-# CoinFlask
+### CoinFlask API Webserver Commands
+```
+npm install
+npm run dev
+```
+
+### Cypress Tests Commands
+```
+npx cypress open
+```
+- test file located at cypress/e2e/CoinFlaskAllTest
+
+
+# CoinFlask Description
 
 CoinFlask is a rudimentary version of CoinGecko.com that provides cryptocurrency market information of the top 100 coins in real-time. The cryptocurrency market information is categorized by rank, name, price, percentage change, volume, and market capitalization. All of the cryptocurrency market data displayed by Coinflask is retrieved using the CoinGecko API.
 
@@ -11,15 +24,3 @@ Vue does not preserve state persistently, so Vuex was included to manage the sta
 The other packages used in the development of CoinFlask were Node Package Manager (NPM) and Figma. Node Package Manager was used to manage the packages in the JavaScript runtime environment, Node.js. Figma is a cloud-based graphics prototyping tool and vector editor that was used to design the CoinFlask logo and loading animation. The logo depicts a green RuneScape potion/flask.
 
 - Created by Jukabo.eth
-
-### CoinFlask API Webserver Commands
-```
-npm install
-npm run dev
-```
-
-### Cypress Tests Commands
-```
-npx cypress open
-```
-- test file located at cypress/e2e/CoinFlaskAllTest
