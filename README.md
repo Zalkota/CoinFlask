@@ -1,40 +1,24 @@
-# Senior Frontend Coding Challenge
-Welcome! Below are instructions on how to utilize this repo.
-- Started Febuary 06/09/2022
-- Created by Jukabo.eth AKA Zalkota
-- 1-page high-level description can be found at 'senior-frontend-coding-challenge/CoinFlask High-level Documentation.pdf'
+# CoinFlask
 
-## Basic
-1. Part
-    - [x] A) Please write a function that sorts 11 small numbers (<100) as fast as possible. Once written, provide an estimate for how long it would take to execute that function 10 Billion (10^10) times on a normal machine.
-    - [x] B) Please make improvements to the code below, using Javascript.
+CoinFlask is a rudimentary version of CoinGecko.com that provides cryptocurrency market information of the top 100 coins in real-time. The cryptocurrency market information is categorized by rank, name, price, percentage change, volume, and market capitalization. All of the cryptocurrency market data displayed by Coinflask is retrieved using the CoinGecko API.
 
-## Practical
+Users have the ability to favorite, sort, and search through all 100 coins. The application features a responsive design, so that it can be viewed on a mobile device, in addition to a desktop. Users have the ability to change the currency in which the market data is displayed. For example, users from outside of the United States have the ability to display the market information in terms of the Euro (€), USD ($), or JPY (¥).
 
-1. Create an application with following requirements:
-    - [x] Create a list of the top 100 coins (use [Coingecko's](https://www.coingecko.com/en/api) API)
-    - [x] Implement search, favorite, and sorting functionalities
-    - [x] Implement state management
-    - [x] if user refreshes the page, application's state needs to be preserved
-    - [x] (bonus) needs to work offline
+CoinFlask was built using the Vue JavaScript framework, Vuex, NPM, Javascript, Vue-Tailwind, HTML, CSS, and Figma. The Vue JavaScript framework provides a component based architecture, state management, and virtual DOM. Vue-Tailwind, HTML, and CSS provides a visually appealing user interface for displaying the cryptocurrency market data.
 
-2. (Bonus)
-    - [x] Write all needed tests
+Vue does not preserve state persistently, so Vuex was included to manage the state of the application, as well as the methods that are responsible for changing the state. This ensures that the state of the application remains available and persistent in the event of a page refresh or internet outtage after the page has been loaded. In order to ensure that the website was free of bugs during development, Cypress was used as an end-to-end framework to automate javascript testing.
 
-3. Write a high-level description (1 page) explaining your solution. Explanation should include:
-    - [x] A description of what you've built
-    - [x] Which technologies you've used and how they tie together
-    - [x] Your reasons for high-level decisions
+The other packages used in the development of CoinFlask were Node Package Manager (NPM) and Figma. Node Package Manager was used to manage the packages in the JavaScript runtime environment, Node.js. Figma is a cloud-based graphics prototyping tool and vector editor that was used to design the CoinFlask logo and loading animation. The logo depicts a green RuneScape potion/flask.
 
+- Created by Jukabo.eth
 
-### CoinFlask CoinGeck API Webserver Commands
+### CoinFlask API Webserver Commands
 ```
 npm install
 npm run dev
 ```
 
 ### Cypress Tests Commands
-
 ```
 npx cypress open
 ```
