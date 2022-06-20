@@ -1,0 +1,191 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;500;700&family=Russo+One&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;700&display=swap');
+
+
+</s
+
+[v-cloak] { display:none; }
+
+* {
+    font-family: Inter,sans-serif;
+}
+
+a {
+  color: #2791ec;
+     text-decoration: underline;
+     font-weight: bold;
+
+}
+
+[v-cloak] {
+display: none;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #718096;
+  opacity: 1; /* Firefox */
+  font-weight: medium;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #718096;
+    opacity: 1; /* Firefox */
+    font-weight: medium;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #718096;
+    opacity: 1; /* Firefox */
+    font-weight: medium;
+}
+
+button:focus {outline:0;}
+
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes rainbow{
+ 0%{color: orange;}
+ 10%{color: purple;}
+ 20%{color: red;}
+ 30%{color: CadetBlue;}
+ 40%{color: yellow;}
+ 50%{color: coral;}
+ 60%{color: green;}
+ 70%{color: cyan;}
+ 80%{color: DeepPink;}
+ 90%{color: DodgerBlue;}
+ 100%{color: orange;}
+}
+
+/* Internet Explorer */
+@-ms-keyframes rainbow{
+  0%{color: orange;}
+ 10%{color: purple;}
+ 20%{color: red;}
+ 30%{color: CadetBlue;}
+ 40%{color: yellow;}
+ 50%{color: coral;}
+ 60%{color: green;}
+ 70%{color: cyan;}
+ 80%{color: DeepPink;}
+ 90%{color: DodgerBlue;}
+ 100%{color: orange;}
+}
+
+/* Standar Syntax */
+@keyframes rainbow{
+   0%{color: orange;}
+ 10%{color: purple;}
+ 20%{color: red;}
+ 30%{color: CadetBlue;}
+ 40%{color: yellow;}
+ 50%{color: coral;}
+ 60%{color: green;}
+ 70%{color: cyan;}
+ 80%{color: DeepPink;}
+ 90%{color: DodgerBlue;}
+ 100%{color: orange;}
+}
+
+
+
+/* -----
+SVG Icons - svgicons.sparkk.fr
+----- */
+
+
+
+
+
+@keyframes semispin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(30deg); }
+}
+
+.markdown a
+{
+ color: #1b366d;
+ text-decoration: underline;
+ font-weight: bold;
+}
+
+
+
+
+.origin-top-right {
+  transform-origin: top right;
+}
+.transition-all {
+  transition-property: all;
+}
+.transition-fastest {
+  transition-duration: 50ms;
+}
+.transition-faster {
+  transition-duration: 100ms;
+}
+.transition-fast {
+  transition-duration: 150ms;
+}
+.transition-medium {
+  transition-duration: 200ms;
+}
+.ease-out-quad {
+  transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+}
+.ease-in-quad {
+  transition-timing-function: cubic-bezier(.55, .085, .68, .53);
+}
+.scale-70 {
+  transform: scale(.7);
+}
+.scale-100 {
+  transform: scale(1);
+}
+
+
+@media screen and (max-width: 992px) {
+  .hide {
+    display: none;
+  }
+
+  .unhide {
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .unhide {
+    display: none;
+  }
+}
+
+
+
+input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .custom-number-input input:focus {
+    outline: none !important;
+  }
+
+  .custom-number-input button:focus {
+    outline: none !important;
+  }
+
+
+  input[type=number] {
+      -moz-appearance:textfield;
+  }
+
+.custom-buttom-shadow {
+    box-shadow: 0px 5px 0px 0px rgba(55,55,55,1);
+    -webkit-box-shadow: 0px 5px 0px 0px rgba(55,55,55,1);
+    -moz-box-shadow: 0px 5px 0px 0px rgba(55,55,55,1);
+}

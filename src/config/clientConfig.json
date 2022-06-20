@@ -1,0 +1,23 @@
+{
+    "production":{
+        "externalRoutes":
+        {
+            "docs":"https://docs.vibers.io",
+            "api":"https://api.vibers.io"}
+    },
+
+    "staging":{
+      "externalRoutes":
+      {
+        "docs":"https://docs.vibers.io",
+        "api":"https://api.vibers.io"}
+    },
+
+        "development":{
+        "externalRoutes":
+        {
+          "docs":"http://localhost:3000",
+          "api":"http://localhost:3000"
+        }
+    }
+}

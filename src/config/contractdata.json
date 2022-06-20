@@ -1,0 +1,19 @@
+{
+  "mainnet":{
+    "contracts":{
+
+    }
+  },
+
+  "goerli":{
+    "contracts":{
+
+        }
+    },
+
+    "rinkeby":{
+      "contracts":{
+      }
+    }
+
+}
