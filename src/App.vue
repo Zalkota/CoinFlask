@@ -13,7 +13,7 @@
             window.setInterval(() => {
                 this.$store.dispatch("refreshMarketData");
                 console.log("refreshMarketData")
-            }, 30000)
+            }, 3000)
 
         }
     }

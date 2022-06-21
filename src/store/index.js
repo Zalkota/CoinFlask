@@ -103,53 +103,37 @@ export default new Vuex.Store({
             }
         },
 
-
         async setMarketData({state, commit, dispatch}) {
+            commit('setShowSpinner', true)
+            let result = await coinGeckoClient.coins.markets(state.marketParameters)
+            let responseStatus = result.code
+            console.log("marketData: ", state.marketData)
 
-            try {
-                commit('setShowSpinner', true)
-                var result = await coinGeckoClient.coins.markets(state.marketParameters)
-                console.log("marketData: ", state.marketData)
-                // var result = []
-
-            } catch (err) {
-
-                // show stored market data
-                if (state.marketData.length > 0) {
-                    commit('setShowSpinner', false)
-                } else {
-                    // show error message
-                    console.error(err);
-                    commit('setNetworkError', true)
-                    commit('setShowSpinner', false)
-                }
-
-            } finally {
-                // hide spinner
-                if (state.marketData.length > 0 || result.data.length > 0) {
-                    commit('setMarketData', result.data)
-                }
+            if (responseStatus == 200) {
+                let marketData = result.data
+                commit('setMarketData', marketData)
                 commit('setShowSpinner', false)
-                console.log("state.searchResults", state.searchResults)
-
+            } else if (state.marketData.length > 0) {
+                commit('setShowSpinner', false)
+            } else {
+                let responseErrorMessage = result.data.error
+                commit('setNetworkError', true)
+                commit('setShowSpinner', false)
+                throw new Error(responseErrorMessage);
             }
 
         },
 
         async refreshMarketData({state, commit, dispatch}) {
-            try {
-                var result = await coinGeckoClient.coins.markets(state.marketParameters)
-            } catch (err) {
-                if (state.marketData.length > 0) {
-                } else {
-                    // show error message
-                    console.error(err);
-                    commit('setNetworkError', true)
-                }
-            } finally {
-                if (state.marketData.length > 0 || result.data.length > 0) {
-                    commit('setMarketData', result.data)
-                }
+            let result = await coinGeckoClient.coins.markets(state.marketParameters)
+            let responseStatus = result.code
+            console.log("result", result)
+            if (responseStatus == 200) {
+                let marketData = result.data
+                commit('setMarketData', marketData)
+            } else {
+                let responseErrorMessage = result.data.error
+                throw new Error(responseErrorMessage);
             }
         },
 

@@ -21,7 +21,6 @@
 import Navbar from "./components/Navbar.vue";
 import TableFrame from "./components/TableFrame.vue";
 import Footer from "./components/Footer.vue";
-
 export default {
   name: "Home",
   components: { Navbar, Footer, TableFrame},
@@ -31,7 +30,7 @@ export default {
       },
 
       totalMarketCapTruncated() {
-          var sum = 0
+          let sum = 0
           if(this.marketData.length > 0 ){
               for(let i = 0; i < this.marketData.length; i++) {
                   sum = this.marketData[i].market_cap + sum
@@ -66,6 +65,7 @@ export default {
       }
 
   },
+
 
 };
 </script>
