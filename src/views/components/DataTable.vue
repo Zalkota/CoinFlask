@@ -50,9 +50,15 @@
                <template slot="row" slot-scope="props" >
                  <tr :class="[]" v-cloak v-show="getSpinnerBoolean == false && getNetworkErrorBoolean == false && tableData.length > 0">
                    <td :class="[props.tdClass, 'py-2  text-center ']">
-                        <vue-star animate="yourAnimateCssClass" color="rgb(250, 210, 0)"><img slot="icon" class="h-8 star-button" style="max-width: none;" src="@/assets/images/icon-star.svg" alt="Favorite" /></vue-star>
-                     <button data-cy="addFavorite" v-if="!checkFavorite(props.row.id)" v-on:click="emitAddFavoriteEvent(props.row.id)"><img class="h-8 star-button" style="max-width: none;" src="@/assets/images/icon-star.svg" alt="Favorite" /></button>
-                     <button data-cy="removeFavorite" v-if="checkFavorite(props.row.id)" v-on:click="emitRemoveFavoriteEvent(props.row.id)"><img class=" h-8 star-button" style="max-width: none;" src="@/assets/images/icon-star-active.svg" alt="Favorite" /></button>
+                    <button v-on:click="animateHeart()" >
+                        <div :ref="props.row.id" :class="checkFavorite(props.row.id)">
+                        </div>
+                    </button>
+                    <!-- <vue-star data-cy="addFavorite" animate="animated bounceIn" color="rgb(250, 210, 0)" ><img slot="icon" v-on:click="emitFavoriteToggleEvent(props.row.id)" class="h-8 star-button" style="max-width: none;" :src="checkFavorite(props.row.id)" alt="Favorite" /></vue-star> -->
+                    <!-- :class="{'text-green-500': props.row.price_change_percentage_1h_in_currency >= 0, 'text-red-500': props.row.price_change_percentage_1h_in_currency < 0 }" -->
+                    <button data-cy="addFavorite" v-on:click="emitFavoriteToggleEvent(props.row.id)"><img class="h-8 star-button" style="max-width: none;" :src="returnFavoriteImage(props.row.id)" alt="Favorite" /></button>
+                     <!-- <button data-cy="addFavorite" v-if="!checkFavorite(props.row.id)" v-on:click="emitAddFavoriteEvent(props.row.id)"><img class="h-8 star-button" style="max-width: none;" src="@/assets/images/icon-star.svg" alt="Favorite" /></button>
+                     <button data-cy="removeFavorite" v-if="checkFavorite(props.row.id)" v-on:click="emitRemoveFavoriteEvent(props.row.id)"><img class=" h-8 star-button" style="max-width: none;" src="@/assets/images/icon-star-active.svg" alt="Favorite" /></button> -->
                    </td>
                    <td :class="[props.tdClass, 'py-2 pr-2 text-left']">
                      {{ props.row.market_cap_rank }}
@@ -119,27 +125,18 @@
 import Spinner from "./Spinner.vue";
 import NetworkError from "./NetworkError.vue";
 import Sparkline from "./Sparkline.vue";
-import MathHelper from "../../js/math-helper.js"
-import VueStar from 'vue-star'
+import MathHelper from "../../js/math-helper.js";
+import VueStar from 'vue-star';
 
 export default {
   name: 'DataTable',
-  props: ["tableData", "favoriteArray"],
+  props: ["tableData", "favoriteMarketData"],
   components: {Spinner, NetworkError, Sparkline, VueStar},
-  watch: {
-
-  },
-
   data() {
     return {
+      animate: false,
+      heartClass: "heart"
     }
-  },
-
-  created() {
-
-  },
-
-  mounted: function () {
   },
 
   computed: {
@@ -154,6 +151,7 @@ export default {
       getCurrencySymbol() {
           return this.$store.getters.getCurrencySymbol
       },
+
 
 
 
@@ -192,29 +190,49 @@ export default {
       },
 
 
-      emitAddFavoriteEvent(id) {
-          this.$emit('AddFavoriteEvent', { id: id })
-          console.log("emitAddFavoriteEvent", id)
+      emitFavoriteToggleEvent(id) {
+          this.$emit('FavoriteEvent', { id: id })
+          console.log("emitFavoriteToggleEvent", id)
       },
 
-      emitRemoveFavoriteEvent(id) {
-          this.$emit('RemoveFavoriteEvent', { id: id })
-          console.log("emitRemoveFavoriteEvent", id)
+      returnFavoriteImage(id) {
+          let position = this.favoriteMarketData.map((element) => element.id).indexOf(id)
+          if (position > -1) {
+              let images = require.context('@/assets/images/', false, /\.svg$/)
+              return images('./icon-star-active.svg')
+          }
+          let images = require.context('@/assets/images/', false, /\.svg$/)
+          return images('./icon-star.svg')
       },
 
+      // returnHeartClass() {
+      //     heart
+      //     heart is_animating
+      //     heart-filled
+      //
+      //
+      //     return
+      // }
 
       checkFavorite(id) {
-          if (this.favoriteArray.length > 0){
-              for(let i = 0; i < this.favoriteArray.length; i++) {
-                  if(this.favoriteArray[i] == id) {
-                      return true
-                      break;
-                  }
-              }
-          } else {
-              return false
-          } return false
+          let position = this.favoriteMarketData.map((element) => element.id).indexOf(id)
+          if (position > -1) {
+
+              this.$refs[id].addEventListener("animationend",function(){
+                console.log(id);
+                })
+
+              return true
+
+          }
+          return false
       },
+
+      animateHeart() {
+          console.log("CLICK")
+          this.animate = !this.animate
+      },
+
 
   }
 }

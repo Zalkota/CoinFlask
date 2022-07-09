@@ -1,7 +1,7 @@
 <template>
     <div >
         <form @submit.prevent="onSubmit" class="text-sm">
-            <input data-cy="searchBar" v-model="query" type="text" class="px-5 py-3 w-48 lg:w-80 outline-none bg-gray-100 rounded-3xl border border-gray-300" placeholder="Search by name..">
+            <input data-cy="searchBar" v-model="query" type="text" class="px-5 py-3 w-96 outline-none bg-gray-100 rounded-3xl border border-gray-300" placeholder="Search by name or symbol">
         </form>
     </div>
 </template>

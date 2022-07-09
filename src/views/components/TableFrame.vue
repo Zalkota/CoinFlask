@@ -35,10 +35,8 @@
 
                                  <DataTable
                                  :tableData = "marketData"
-                                 :favoriteArray = "favoriteArray"
-                                 :useFavorites = "alwaysFalse"
-                                 @AddFavoriteEvent = "readAddFavoriteChangeEvent"
-                                 @RemoveFavoriteEvent = "readRemoveFavoriteChangeEvent"
+                                 :favoriteMarketData = "favoriteMarketData"
+                                 @FavoriteEvent = "readFavoriteToggleEvent"
                                  />
 
                               </div>
@@ -57,9 +55,8 @@
 
                                 <DataTable
                                 :tableData = "favoriteMarketData"
-                                :favoriteArray = "favoriteArray"
-                                @AddFavoriteEvent = "readAddFavoriteChangeEvent"
-                                @RemoveFavoriteEvent = "readRemoveFavoriteChangeEvent"
+                                :favoriteMarketData = "favoriteMarketData"
+                                @FavoriteEvent = "readFavoriteToggleEvent"
                                 />
 
                                 <div v-show="favoriteMarketData && favoriteMarketData.length == 0" class=" text-sm text-center text-gray-600 mx-auto my-6">
@@ -83,10 +80,8 @@
 
                                  <DataTable
                                  :tableData = "marketData"
-                                 :favoriteArray = "favoriteArray"
-                                 :useFavorites = "alwaysFalse"
-                                 @AddFavoriteEvent = "readAddFavoriteChangeEvent"
-                                 @RemoveFavoriteEvent = "readRemoveFavoriteChangeEvent"
+                                 :favoriteMarketData = "favoriteMarketData"
+                                 @FavoriteEvent = "readFavoriteToggleEvent"
                                  />
 
                               </div>
@@ -144,61 +139,36 @@ export default {
 
   methods: {
 
+      readFavoriteToggleEvent(payload) {
+          let id = payload.id
+          this.toggleFavorite(id)
+          console.log("readFavoriteToggleEvent", id)
+      },
 
-     readAddFavoriteChangeEvent(payload) {
-         let id = payload.id
-         this.addFavorite(id)
-         console.log("readAddFavoriteChangeEvent", id)
+
+     toggleFavorite(id) {
+         let position = this.favoriteMarketData.map((element) => element.id).indexOf(id)
+         console.log("position", position)
+
+         // check is id is already found in favoriteMarketData
+         if (position > -1) {
+             // Object already in favorites
+             // remove it
+             this.favoriteMarketData.splice(position, 1);
+             this.$store.commit('setFavoriteMarketData', this.favoriteMarketData)
+             // console.log("Favorite removed", id, "from", this.favoriteMarketData)
+
+         } else {
+             // Object not found in favorites
+             // obtain market data for that favorite
+             let marketDataQuery = this.marketData.filter(x => x.id.toLowerCase() == id)
+             // add it to the favoriteMarketData array
+             this.favoriteMarketData.push(marketDataQuery[0])
+             this.$store.commit('setFavoriteMarketData', this.favoriteMarketData)
+             // console.log("Favorite added", id, "to", this.favoriteMarketData)
+
+         }
      },
-
-     readRemoveFavoriteChangeEvent(payload) {
-         let id = payload.id
-         this.removeFavorite(id)
-         console.log("readAddFavoriteChangeEvent", id)
-     },
-
-
-    addFavorite(id) {
-        this.favoriteArray.push(id)
-        // this.getFavoriteProps()
-        console.log(id, "added to favorites.")
-
-        // const found = arr1.some(r=> arr2.indexOf(r) >= 0)
-        for (let i = 0; i < this.marketData.length; i++) {
-            console.log("running", this.marketData[i].id, this.favoriteArray, this.favoriteArray.indexOf(this.marketData[i].id), this.favoriteArray[i] == id)
-            if (this.favoriteArray.indexOf(this.marketData[i].id) > -1 && this.marketData[i].id == id) {
-
-                // edit locally
-                this.favoriteMarketData.push(this.marketData[i])
-
-                // update storage
-                this.$store.commit('setFavoriteMarketData', this.favoriteMarketData)
-                this.$store.commit('setFavoriteArray', this.favoriteArray)
-
-                console.log("Data from tableData added to favoriteMarketData", this.favoriteMarketData[0], this.marketData[i].id)
-                break;
-            }
-        }
-    },
-
-    removeFavorite(id) {
-        for(let i = 0; i < this.favoriteArray.length; i++) {
-            if(this.favoriteArray[i] == id) {
-
-                // edit locally
-                this.favoriteArray.splice(i, 1);
-                this.favoriteMarketData.splice(i, 1);
-
-                // update storage
-                this.$store.commit('setFavoriteMarketData', this.favoriteMarketData)
-                this.$store.commit('setFavoriteArray', this.favoriteArray)
-
-                console.log(id, "removed from favorites.")
-                break;
-            }
-        }
-    },
-
 
     toggleTabs: function(tabNumber){
         this.openTab = tabNumber

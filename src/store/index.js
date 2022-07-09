@@ -91,7 +91,9 @@ export default new Vuex.Store({
         async setSearchResults({state, commit, dispatch}){
             state.searchResults = []
             if (state.searchQuery && state.searchQuery.length > 0){
-                var searchId = state.marketData.filter(x => state.searchQuery.includes(x.id.toLowerCase()))
+                // let searchId = state.marketData.filter(x => state.searchQuery.includes(x.id.toLowerCase()))
+
+                let searchId = state.marketData.filter(x => state.searchQuery.includes(x.id.toLowerCase()) || state.searchQuery.includes(x.symbol.toLowerCase()))
 
                 if (searchId[0] != undefined){
                     commit('setSearchResults', searchId[0])
@@ -127,7 +129,6 @@ export default new Vuex.Store({
         async refreshMarketData({state, commit, dispatch}) {
             let result = await coinGeckoClient.coins.markets(state.marketParameters)
             let responseStatus = result.code
-            console.log("result", result)
             if (responseStatus == 200) {
                 let marketData = result.data
                 commit('setMarketData', marketData)
