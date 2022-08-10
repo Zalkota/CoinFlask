@@ -205,15 +205,6 @@ export default {
           return images('./icon-star.svg')
       },
 
-      // returnHeartClass() {
-      //     heart
-      //     heart is_animating
-      //     heart-filled
-      //
-      //
-      //     return
-      // }
-
       checkFavorite(id) {
           let position = this.favoriteMarketData.map((element) => element.id).indexOf(id)
           if (position > -1) {
