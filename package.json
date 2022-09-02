@@ -21,7 +21,7 @@
     "deploy": "node deploy.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test": "jest --watchAll --verbose"
+    "test": "jest --watch --verbose"
   },
   "dependencies": {
     "@ethersproject/contracts": "^5.5.0",
@@ -30,6 +30,7 @@
     "coingecko-api": "^1.0.10",
     "core-js": "^2.6.5",
     "cors": "^2.8.5",
+    "d3": "^7.6.1",
     "ethereumjs-abi": "^0.6.8",
     "ethereumjs-util": "^7.0.9",
     "ethers": "^5.5.4",
@@ -48,7 +49,7 @@
     "@babel/core": "^7.12.13",
     "@babel/cli": "^7.10.5",
     "@babel/plugin-transform-runtime": "^7.11.5",
-    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-env": "^7.12.13",
     "@babel/register": "^7.7.4",
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-plugin-eslint": "^3.5.0",
@@ -63,7 +64,7 @@
     "eth-sig-util": "^3.0.1",
     "express": "^4.17.1",
     "jest": "^26.6.3",
-    "regenerator-runtime": "^0.13.9",
+    "regenerator-runtime": "^0.13.7",
     "vue-template-compiler": "^2.5.21"
   }
 }

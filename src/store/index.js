@@ -11,6 +11,7 @@ export default new Vuex.Store({
         marketData: [],
         favoriteMarketData: [],
         favoriteArray: [],
+        currency: 'USD',
         currencySymbol: '$',
         showSpinner: true,
         networkError: false,
@@ -34,6 +35,8 @@ export default new Vuex.Store({
 
         getMarketParameters: state => state.marketParameters,
 
+        getCurrency: state => state.currency,
+
         getCurrencySymbol: state => state.currencySymbol,
 
         getSpinnerBoolean: state => state.showSpinner,
@@ -42,7 +45,7 @@ export default new Vuex.Store({
 
         getSearchQuery: state => state.searchQuery,
 
-        getSearchResults: state => state.searchResults
+        getSearchResults: state => state.searchResults,
     },
     mutations: {
         setMarketData(state, payload) {
@@ -62,7 +65,8 @@ export default new Vuex.Store({
         },
 
         setCurrencySymbol(state, payload) {
-            state.currencySymbol = payload;
+            state.currency = payload.currency;
+            state.currencySymbol = payload.symbol;
         },
 
         setShowSpinner(state, payload) {
@@ -88,10 +92,9 @@ export default new Vuex.Store({
 
 
 
-        async setSearchResults({state, commit, dispatch}){
+        async setSearchResults({state, commit}){
             state.searchResults = []
             if (state.searchQuery && state.searchQuery.length > 0){
-                // let searchId = state.marketData.filter(x => state.searchQuery.includes(x.id.toLowerCase()))
 
                 let searchId = state.marketData.filter(x => state.searchQuery.includes(x.id.toLowerCase()) || state.searchQuery.includes(x.symbol.toLowerCase()))
 
@@ -105,7 +108,7 @@ export default new Vuex.Store({
             }
         },
 
-        async setMarketData({state, commit, dispatch}) {
+        async setMarketData({state, commit}) {
             commit('setShowSpinner', true)
             let result = await coinGeckoClient.coins.markets(state.marketParameters)
             let responseStatus = result.code
@@ -126,7 +129,7 @@ export default new Vuex.Store({
 
         },
 
-        async refreshMarketData({state, commit, dispatch}) {
+        async refreshMarketData({state, commit}) {
             let result = await coinGeckoClient.coins.markets(state.marketParameters)
             let responseStatus = result.code
             if (responseStatus == 200) {
@@ -138,14 +141,14 @@ export default new Vuex.Store({
             }
         },
 
-        async sortByPrice({state, commit, dispatch}) {
+        async sortByPrice({state, commit}) {
             let sortedArray = state.marketData.sort((a, b) => (b.current_price - a.current_price))
             commit('setMarketData', sortedArray)
             let sortedFavoriteArray = state.favoriteMarketData.sort((a, b) => (b.current_price - a.current_price))
             commit('setFavoriteMarketData', sortedFavoriteArray)
         },
 
-        async sortByMarketCap({state, commit, dispatch}) {
+        async sortByMarketCap({state, commit}) {
             let sortedArray = state.marketData.sort((a, b) => (a.market_cap_rank - b.market_cap_rank))
             commit('setMarketData', sortedArray)
             let sortedFavoriteArray = state.favoriteMarketData.sort((a, b) => (a.market_cap_rank - b.market_cap_rank))
@@ -153,14 +156,14 @@ export default new Vuex.Store({
 
         },
 
-        async sortByGainer({state, commit, dispatch}) {
+        async sortByGainer({state, commit}) {
             let sortedArray = state.marketData.sort((a, b) => (b.price_change_percentage_24h - a.price_change_percentage_24h))
             commit('setMarketData', sortedArray)
             let sortedFavoriteArray = state.favoriteMarketData.sort((a, b) => (b.price_change_percentage_24h - a.price_change_percentage_24h))
             commit('setFavoriteMarketData', sortedFavoriteArray)
         },
 
-        async sortByLoser({state, commit, dispatch}) {
+        async sortByLoser({state, commit}) {
             let sortedArray = state.marketData.sort((a, b) => (a.price_change_percentage_24h - b.price_change_percentage_24h))
             commit('setMarketData', sortedArray)
             let sortedFavoriteArray = state.favoriteMarketData.sort((a, b) => (a.price_change_percentage_24h - b.price_change_percentage_24h))

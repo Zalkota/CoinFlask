@@ -82,8 +82,15 @@ export default {
               order: CoinGecko.ORDER.MARKET_CAP_DESC,
               sparkline: true,
           }
+
+          let currencyParameters = {
+            currency: payload,
+            symbol: symbol,
+          }
+          
           console.log("marketParameters", marketParameters)
-          this.$store.commit('setCurrencySymbol', symbol)
+          console.log("currencyParameters", currencyParameters)
+          this.$store.commit('setCurrencySymbol', currencyParameters)
           this.$store.commit('setMarketParameters', marketParameters)
           this.$store.dispatch("setMarketData");
       }

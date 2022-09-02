@@ -9,15 +9,9 @@
     :totalVolume = "totalVolume"
     />
 
-    <div class="container mx-auto mt-4 mb-4 px-4 sm:px-6 lg:px-10">
-        <ol class="list-reset flex no-underline">
-            <li class="no-underline">
-                <router-link class="text-green-400 hover:text-green-500 no-underline"  to="/">Home</router-link>
-            </li>
-            <li><span class="text-gray-500 mx-2">/</span></li>
-            <li class="text-gray-500">Search</li>
-        </ol>
-    </div>
+    <BreadCrumb 
+    :tokenName = "StrSearch"
+    />
 
 
       <div class="pt-1">
@@ -41,17 +35,19 @@ import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 import TableFrame from "./components/TableFrame.vue";
 import SearchBar from './components/SearchBar.vue'
+import BreadCrumb from './components/BreadCrumb.vue';
 
 
 export default {
   name: 'Search',
   props: [ ],
-  components: {Navbar, Footer, SearchBar, TableFrame},
+  components: { Navbar, Footer, SearchBar, TableFrame, BreadCrumb },
   data() {
     return {
       initialQuery: null,
       searchResults: [],
       marketSearchData: [],
+      StrSearch: "Search"
     }
   },
   computed: {

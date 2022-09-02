@@ -48,7 +48,7 @@
              >
 
                <template slot="row" slot-scope="props" >
-                 <tr :class="[]" v-cloak v-show="getSpinnerBoolean == false && getNetworkErrorBoolean == false && tableData.length > 0">
+                 <tr class="hover:bg-gray-100" v-cloak v-on:click="reroute(props.row.name)" v-show="getSpinnerBoolean == false && getNetworkErrorBoolean == false && tableData.length > 0">
                    <td :class="[props.tdClass, 'py-2  text-center ']">
                     <button v-on:click="animateHeart()" >
                         <div :ref="props.row.id" :class="checkFavorite(props.row.id)">
@@ -67,7 +67,8 @@
                    <td :class="[props.tdClass, 'py-2 text-left pr-0 ']">
                      <img class="block h-6" :src="props.row.image" alt="CoinFlask Logo" />
                    </td>
-                   <td :class="[props.tdClass, 'py-2 text-left pl-0 ']">
+                   <td :class="[props.tdClass, 'py-2 text-left pl-0']">
+                       <!-- <router-link class="no-underline text-gray-800 font-bold " :to="{name: 'detailView', params: {tokenName: props.row.name}}">{{ props.row.name }}</router-link> -->
                        {{ props.row.name }}
                    </td>
                    <td :class="[props.tdClass, 'py-2 text-left pl-0 text-xs font-thin text-gray-700 uppercase']">
@@ -160,6 +161,11 @@ export default {
   mixins: [],
 
   methods: {
+
+      reroute(tokenName) {
+        console.log(tokenName)
+        this.$router.push({ name: 'detailView', params: {tokenName: tokenName}})
+      },
 
       addCommasToNumber(rawNumber) {
           if (rawNumber != undefined) {
