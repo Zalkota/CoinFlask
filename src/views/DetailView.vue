@@ -1,15 +1,14 @@
 <template>
     <div>
         <Navbar :marketData="marketData" :totalMarketCap="totalMarketCap" :totalVolume="totalVolume" />
+        <BreadCrumb :tokenName="filterTokenData.name + ' Price'" />
         <div class="container mx-auto mt-2 lg:mt-16 mb-12 lg:mb-32  px-4 sm:px-6 lg:px-10">
 
             <div class="flex">
 
                 <div class="flex-1 w-2/3">
-                    <BreadCrumb :tokenName="filterTokenData.name + ' Price'" />
-
-
-                    <div class="flex mt-12">
+                    
+                    <div class="flex">
                         <div class="flex-initial pr-2">
                             <img class="block h-8" :src="filterTokenData.image" alt="CoinFlask Logo" />
                         </div>
