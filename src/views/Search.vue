@@ -13,15 +13,14 @@
     :tokenName = "StrSearch"
     />
 
+    <div class="pt-1">
+        <TableFrame
+        :marketData = "getSearchResults"
+        :totalMarketCap = "totalMarketCapTruncated"
+        />
+    </div>
 
-      <div class="pt-1">
-          <TableFrame
-          :marketData = "getSearchResults"
-          :totalMarketCap = "totalMarketCapTruncated"
-          />
-      </div>
-
-  <Footer/>
+    <Footer/>
 
 </div>
 </template>

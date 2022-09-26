@@ -7,7 +7,7 @@ import store from './store'
 import './css/tailwind.css'
 import './css/main.css'
 import './css/normalize.css'
-
+import './css/graph_line.css'
 
 Vue.config.productionTip = false
 

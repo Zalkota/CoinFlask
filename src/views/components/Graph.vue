@@ -26,83 +26,81 @@ export default {
   components: {},
   data() {
     return {
-      
       data: data
     }
   },
   mounted() {
-    this.renderChart().catch(error => {
-      console.log(error)
+    const MARGIN = { LEFT: 100, RIGHT: 10, TOP: 10, BOTTOM: 130 }
+    const WIDTH = 600 - MARGIN.LEFT - MARGIN.RIGHT
+    const HEIGHT = 400 - MARGIN.TOP - MARGIN.BOTTOM
+
+    let flag = true
+
+    const svg = d3.select("#chart-area").append("svg")
+      .attr("width", WIDTH + MARGIN.LEFT + MARGIN.RIGHT)
+      .attr("height", HEIGHT + MARGIN.TOP + MARGIN.BOTTOM)
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${MARGIN.LEFT}, ${MARGIN.TOP})`)
+
+    // X label
+    const xLabel = g.append("text")
+      .attr("class", "x axis-label")
+      .attr("x", WIDTH / 2)
+      .attr("y", HEIGHT + 110)
+      .attr("font-size", "20px")
+      .attr("text-anchor", "middle")
+      .text("Month")
+
+    // Y Label
+    const yLabel = g.append("text")
+      .attr("class", "y axis-label")
+      .attr("x", - (HEIGHT / 2))
+      .attr("y", -60)
+      .attr("font-size", "20px")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+
+    // Scales
+    const x = d3.scaleBand()
+      .range([0, WIDTH])
+      .paddingInner(0.2)
+      .paddingOuter(0.2)
+
+    const y = d3.scaleLinear()
+      .range([HEIGHT, 0]) 
+
+    // Axis Groups
+    const xAxisGroup = g.append("g")
+      .attr("class", "x axis")
+      .attr("transform", `translate(0, ${HEIGHT})`)
+
+    const yAxisGroup = g.append("g")
+      .attr("class", "y axis")
+    
+    this.data.forEach(d => {
+      d.revenue = Number(d.revenue)
+      d.profit = Number(d.profit)
     })
 
-  },
+    // Updater
+    d3.interval(() => {
+      flag = !flag
+      update(this.data)
 
-  created() {
-    // this.colorScale = d3
-    //   .scaleOrdinal()
-    //   .range(["#dc2626", "#16a34a", "#0891b2", "#7e22ce"]);
+    }, 1000)
 
-    
-  },
+    update(this.data)
 
-  computed: {
-  },
+    function update(data) {
+      const value = flag ? "profit" : "revenue"
+      const t = d3.transition().duration(750)
 
-  methods: {
-    renderChart() {
-
-      const MARGIN = { LEFT: 100, RIGHT: 10, TOP: 10, BOTTOM: 130 }
-      const WIDTH = 600 - MARGIN.LEFT - MARGIN.RIGHT
-      const HEIGHT = 400 - MARGIN.TOP - MARGIN.BOTTOM
-
-      console.log(MARGIN, WIDTH, HEIGHT)
-
-      this.data.forEach(d => {
-        d.height = Number(d.height)
-        console.log(d.height)
-      })
-
-      const svg = d3.select("#chart-area").append("svg")
-        .attr("width", WIDTH + MARGIN.LEFT + MARGIN.RIGHT)
-        .attr("height", HEIGHT + MARGIN.TOP + MARGIN.BOTTOM)
-
-      const g = svg.append("g")
-        .attr("transform", `translate(${MARGIN.LEFT}, ${MARGIN.TOP})`)
-
-      // X label
-      g.append("text")
-        .attr("class", "x axis-label")
-        .attr("x", WIDTH / 2)
-        .attr("y", HEIGHT + 110)
-        .attr("font-size", "20px")
-        .attr("text-anchor", "middle")
-        .text("The world's tallest buildings")
-
-      // Y Label
-      g.append("text")
-        .attr("class", "y axis-label")
-        .attr("x", - (HEIGHT / 2))
-        .attr("y", -60)
-        .attr("font-size", "20px")
-        .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .text("Height (m)")
-
-      const x = d3.scaleBand()
-        .domain(this.data.map(d => d.name))
-        .range([0, WIDTH])
-        .paddingInner(0.2)
-        .paddingOuter(0.2)
-
-      const y = d3.scaleLinear()
-        .domain([0, d3.max(this.data, d => d.height)])
-        .range([HEIGHT, 0]) 
+      x.domain(data.map(d => d.month))
+      y.domain([0, d3.max(data, d => d[value])])
 
       const xAxisCall = d3.axisBottom(x)
-      g.append("g")
-        .attr("class", "x axis")
-        .attr("transform", `translate(0, ${HEIGHT})`)
-        .call(xAxisCall)
+      xAxisGroup.call(xAxisCall)
         .selectAll("text")
           .attr("y", "10")
           .attr("x", "-5")
@@ -113,28 +111,52 @@ export default {
       const yAxisCall = d3.axisLeft(y)
         .ticks(3)
         .tickFormat(d => d + "m") // Showing all values in meters
-      g.append("g")
-        .attr("class", "y axis")
-        .call(yAxisCall)
+      yAxisGroup.transition(t).call(yAxisCall)
 
+      // Spawn SVGs
+      const rects = g.selectAll("circle")
+        .data(data)
 
-      const rects = g.selectAll("rect")
-        .data(this.data)
+      console.log(rects)
 
-      rects.enter().append("rect")
-      .attr("y", d => y(d.height))
-      .attr("x", (d) => x(d.name))
-      .attr("width", 50)
-      .attr("height", d => HEIGHT - y(d.height))
-      .attr("fill", d => {
-        if (d.name == "Burj Khalifa") {
-          return "Blue" 
-        } else {
-          return "Red"
-        }
-      })
+      // EXIT old elemnts not present in new data
+      rects.exit()
+        .attr("fill", "red")
+        .transition(t)
+          .attr("cy", y(0))
+          .remove()
+
+      // UPDATE old ellements present in new data
+      rects.transition(t)
+        .attr("cy", d => y(d[value]))
+        .attr("width", 50)
+        .attr("height", d => HEIGHT - y(d[value]))
+        
+      // ENTER new elements present in new data
+      rects.enter().append("circle")
+        .attr("cy", d => y(0))
+        .attr("r", 5)
+        .attr("fill", "grey")
+        .transition(t)
+          .attr("cx", d => x(d.month) + (x.bandwidth() /2))
+          .attr("cy", d => y(d[value]))
+
+        const text = flag ? "Profit ($)" : "Revenue ($)"
+
+      yLabel.text(text)
     }
+  },
 
+  created() {
+
+  },
+
+  computed: {
+  },
+
+  methods: {
+    
+    
   }
 }
 </script>

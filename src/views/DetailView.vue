@@ -2,10 +2,9 @@
     <div>
         <Navbar :marketData="marketData" :totalMarketCap="totalMarketCap" :totalVolume="totalVolume" />
         <BreadCrumb :tokenName="filterTokenData.name + ' Price'" />
+
         <div class="container mx-auto mt-2 lg:mt-16 mb-12 lg:mb-32  px-4 sm:px-6 lg:px-10">
-
             <div class="flex">
-
                 <div class="flex-1 w-2/3">
                     
                     <div class="flex">
@@ -29,8 +28,6 @@
                         </div>
                     </div>
 
-
-
                     <div class="flex flex-row text-sm mt-4">
                         <div class="flex flex-col w-1/2">
                             <div class="flex-1 flex flex-row border-b border-gray-300">
@@ -43,7 +40,7 @@
                                 <div class="flex-initial p-2 font-bold">{{ getCurrencySymbol }}{{  addCommasToNumber(filterTokenData.total_volume) 
                                     }}</div>
                             </div>
-                            <div class="flex-1 flex flex-row border-b border-gray-300">
+                            <div v-show="filterTokenData.fully_diluted_valuation ? true : false" class="flex-1 flex flex-row border-b border-gray-300">
                                 <div class="flex-1 p-2 text-gray-600 font-thin text-sm">Fully Diluted Valuation </div>
                                 <div class="flex-initial p-2 font-bold">{{ getCurrencySymbol }}{{
                                     addCommasToNumber(filterTokenData.fully_diluted_valuation)  }}</div>
@@ -61,7 +58,7 @@
                                 <div class="flex-initial p-2 font-bold">{{ getCurrencySymbol }}{{  addCommasToNumber(filterTokenData.total_supply) 
                                     }}</div>
                             </div>
-                            <div class="flex-1 flex flex-row border-b border-gray-300">
+                            <div v-show="filterTokenData.max_supply ? true : false" class="flex-1 flex flex-row border-b border-gray-300">
                                 <div class="flex-1 p-2 text-gray-600 font-thin text-sm">Max Supply</div>
                                 <div class="flex-initial p-2 font-bold">{{ getCurrencySymbol }}{{  addCommasToNumber(filterTokenData.max_supply)  }}
                                 </div>
@@ -71,7 +68,7 @@
                 </div>
 
                 <div class="w-1/3">
-                    <h3 class="text-xl font-bold">Info</h3>
+                    
                 </div>
             </div>
 
@@ -107,11 +104,79 @@
                                 </div>
                             </div>
 
-                            <div class="mx-auto text-left w-full">
-                                <Graph 
-                                :tokenData="filterTokenData"/>
-                            </div>
+                            <div class="mx-auto text-left w-full flex">
+                                <div class="flex-1">
+                                    <Graph 
+                                    :tokenData="filterTokenData"
+                                    :filteredData="filteredMarketChartData"/>
+                                </div>
+                                <div class="flex-1 bg-gray-100 shadow-sm border border-gray-300 ml-8 px-4 py-6 rounded-md">
+                                    <h2 class="text-2xl font-bold mb-2">{{ filterTokenData.symbol.toUpperCase() }} Price Statistics</h2>
+                                    <div class="flex flex-col text-sm text-gray-600">
+                                    <div class="flex-1 flex border-b border-gray-300 py-3">
+                                        <div class="flex-intial">
+                                        <h3>Bitcoin Price Today</h3>
+                                        </div>
+                                        <div class="flex-1 font-bold text-gray-800 text-right">
+                                        ${{ addCommasToNumber(filterTokenData.current_price) }}
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 flex border-b border-gray-300 py-3">
+                                        <div class="flex-intial">
+                                        <h3>Trading Volume</h3>
+                                        </div>
+                                        <div class="flex-1 font-bold text-gray-800 text-right">
+                                        ${{ addCommasToNumber(filterTokenData.total_volume) }}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex-1 flex border-b border-gray-300 py-3">
+                                        <div class="flex-intial">
+                                        <h3>24h Low / 24h High</h3>
+                                        </div>
+                                        <div class="flex-1 font-bold text-gray-800 text-right">
+                                        ${{ addCommasToNumber(filterTokenData.low_24h) }} <span class="text-gray-600"> /</span> ${{ addCommasToNumber(filterTokenData.high_24h) }}
+                                        </div>
+                                    </div>
 
+                                    <div class="flex-1 flex border-b border-gray-300 py-3">
+                                        <div class="flex-intial">
+                                        <h3>Market Cap Rank</h3>
+                                        </div>
+                                        <div class="flex-1 font-bold text-gray-800 text-right">
+                                        #{{ filterTokenData.market_cap_rank }}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-1 flex border-b border-gray-300 py-3">
+                                        <div class="flex-intial">
+                                        <h3>Market Cap</h3>
+                                        </div>
+                                        <div class="flex-1 font-bold text-gray-800 text-right">
+                                        ${{ addCommasToNumber(filterTokenData.market_cap) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-1 flex border-b border-gray-300 py-3">
+                                        <div class="flex-intial">
+                                        <h3>All-Time High</h3>
+                                        </div>
+                                        <div class="flex-1 font-bold text-gray-800 text-right">
+                                        ${{ addCommasToNumber(filterTokenData.ath) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-1 flex border-b border-gray-300 py-3">
+                                        <div class="flex-intial">
+                                        <h3>All-Time Low</h3>
+                                        </div>
+                                        <div class="flex-1 font-bold text-gray-800 text-right">
+                                        ${{ addCommasToNumber(filterTokenData.atl) }}
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div v-bind:class="{ 'hidden': openTab !== 1, 'block': openTab === 1 }">
 
@@ -131,10 +196,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
     </div>
 </template>
@@ -146,13 +207,12 @@ import CoinGecko from 'coingecko-api'
 const coinGeckoClient = new CoinGecko();
 import Navbar from "./components/Navbar.vue";
 import BreadCrumb from "./components/BreadCrumb.vue";
-import Graph from "./components/Graph.vue";
+import Graph from "./components/d3-templates/Graph_area_v2.vue";
 import MathHelper from "../js/math-helper.js";
 
 
 export default {
     name: 'DetailView',
-    props: [],
     components: { Navbar, BreadCrumb, Graph },
     data() {
         return {
@@ -160,6 +220,10 @@ export default {
         }
     },
     computed: {
+
+        filteredMarketChartData() {
+            return this.$store.getters.getFilteredMarketChartData;
+        },
 
         marketData() {
             return this.$store.getters.getStoredMarketData;
@@ -211,6 +275,19 @@ export default {
 
     },
 
+    created() {
+        // dispatch update timeFrame state variable
+        this.$store.dispatch("setTimeFrame", "max");
+
+        // dispatch update market chart parameters with new volume
+        this.$store.dispatch("updateMarketChartParams");
+
+        // fetch market chart data from coinGecko API by coin
+        this.$store.dispatch("fetchMarketChart", this.filterTokenData.name);
+    },
+    mounted() {
+        
+    },
     methods: {
 
         toggleTabs(tabNumber) {
@@ -258,12 +335,7 @@ export default {
                 // console.log("Favorite added", id, "to", this.favoriteMarketData)
 
             }
-        },
-
-        toggleTabs: function (tabNumber) {
-            this.openTab = tabNumber
         }
-
     }
 }
 </script>

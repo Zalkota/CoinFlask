@@ -3,10 +3,14 @@ import Vuex from 'vuex'
 import CoinGecko from 'coingecko-api'
 const coinGeckoClient = new CoinGecko();
 import createPersistedState from 'vuex-persistedstate';
+import marketChart from './modules/marketChart.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+    modules: {
+        marketChart
+    },
     state: {
         marketData: [],
         favoriteMarketData: [],
@@ -170,7 +174,6 @@ export default new Vuex.Store({
             commit('setFavoriteMarketData', sortedFavoriteArray)
         },
 
-    },
-    modules: {
     }
+    
 })

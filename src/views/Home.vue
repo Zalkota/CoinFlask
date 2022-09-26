@@ -25,6 +25,7 @@ export default {
   name: "Home",
   components: { Navbar, Footer, TableFrame},
   computed: {
+    
       marketData() {
           return this.$store.getters.getStoredMarketData;
       },
