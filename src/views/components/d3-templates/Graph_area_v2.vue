@@ -3,17 +3,17 @@
         <div class="flex">
           <div class="flex-1">
             <div class="flex-intial  ">
-              <div class="flex ">
-                <div class="inline-flex ">
+              <div class="flex md:flex-row flex-col">
+                <div class="inline-flex m-1">
                   <buttonSelector 
                   :inputData="buttonSelectorData"
                   @variableSelectionEvent="readVariableSelectionEvent" 
                   />
                 </div>
-                <div class="flex-1 bg-white">
+                <div class="md:flex-1 bg-white">
                   
                 </div>
-                <div class="flex-initial">
+                <div class="inline-flex  m-1">
                   <buttonSelector 
                   :inputData="buttonSelectorTimeFrame"
                   @variableSelectionEvent="readTimeFrameSelectionEvent" 
@@ -71,7 +71,7 @@ export default {
       coinSelection: "bitcoin",
 
       buttonSelectorData: [{"display" : "Price", "value": "price_usd"}, {"display" : "Market Cap", "value": "market_cap"}, {"display" : "Volume", "value": "24h_vol"}],
-      buttonSelectorTimeFrame: [{"display" : "24h", "value": "1"}, {"display" : "7d", "value": "7"}, {"display" : "14d", "value": "14"}, {"display" : "30d", "value": "30"}, {"display" : "90d", "value": "90"}],
+      buttonSelectorTimeFrame: [{"display" : "24h", "value": "1"}, {"display" : "7d", "value": "7"}, {"display" : "14d", "value": "14"}, {"display" : "30d", "value": "30"}, {"display" : "Max", "value": "max"}],
       variableSelection: "price_usd"
     }
   },
@@ -82,9 +82,15 @@ export default {
     this.HEIGHT = HEIGHT
     this.WIDTH = WIDTH
 
+    // const svg = d3.select("#chart-area").append("svg")
+    //   .attr("width", WIDTH + MARGIN.LEFT + MARGIN.RIGHT)
+    //   .attr("height", HEIGHT + MARGIN.TOP + MARGIN.BOTTOM)
+
     const svg = d3.select("#chart-area").append("svg")
       .attr("width", WIDTH + MARGIN.LEFT + MARGIN.RIGHT)
       .attr("height", HEIGHT + MARGIN.TOP + MARGIN.BOTTOM)
+      .attr("viewBox", [0, 0, WIDTH + MARGIN.LEFT + MARGIN.RIGHT, HEIGHT + MARGIN.TOP + MARGIN.BOTTOM])
+      .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
 
     this.g = svg.append("g")
     .attr("transform", `translate(${MARGIN.LEFT}, ${MARGIN.TOP})`)
@@ -110,10 +116,7 @@ export default {
       // append area of the graph to the group.
     this.g.append("path")
           .attr("id", "area")
-          // .attr("class", "area")
           .attr("fill", "#C6F6D5")
-          // .transition(d3.transition().duration(500))
-          // .attr("d", this.area(data));
 
     // axis labels
     this.xLabel = this.g.append("text")
@@ -130,7 +133,6 @@ export default {
       .attr("x", -170)
       .attr("font-size", "20px")
       .attr("text-anchor", "middle")
-      // .text("Price ($)")
 
     this.g.append("linearGradient")
         .attr("id", "temperature-gradient")
@@ -155,6 +157,19 @@ export default {
       .ticks(6)
       .tickFormat(d => `${parseInt(d / 1000)}k`)
       .tickSize(-WIDTH)
+      
+      // .call(g => g.selectAll(".tick").call(grid))
+      
+
+    // A helper method for generating grid lines on the y-axis.
+  function grid(tick) {
+    return tick.append("line")
+        .attr("class", "grid")
+        .attr("x2", WIDTH - MARGIN.LEFT - MARGIN.RIGHT)
+        .attr("stroke", "currentColor")
+        .attr("stroke-opacity", 0.1);
+  }
+      
 
     // axis groups
     this.xAxis = this.g.append("g")

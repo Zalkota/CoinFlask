@@ -16,13 +16,13 @@ Vue.config.productionTip = false
 const settings = {
     TTable: {
     classes: {
-      table: 'min-w-full divide-y divide-gray-100 border-gray-200 border-none',
+      table: 'min-w-full divide-y divide-gray-100 border-none',
       thead: 'border-t ',
       theadTr: '',
       theadTh: 'px-3 pb-2 pt-3 font-semibold text-left bg-white border-b',
       tbody: 'bg-white divide-y divide-gray-100 t-body-test ',
       tr: '',
-      td: 'px-3 py-1 whitespace-no-wrap border-b border-gray-400 ',
+      td: 'px-3 py-1 whitespace-no-wrap',
       tfoot: '',
       tfootTr: '',
       tfootTd: ''
@@ -30,7 +30,7 @@ const settings = {
     variants: {
       thin: {
         td: 'p-1 whitespace-no-wrap text-sm',
-        theadTh: 'p-1 font-semibold text-left bg-gray-100 border-b text-sm'
+        theadTh: 'p-1 font-semibold text-left  text-sm'
       }
     }
   },

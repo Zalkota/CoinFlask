@@ -5,7 +5,7 @@
 
         <div class="container mx-auto mt-2 lg:mt-16 mb-12 lg:mb-32  px-4 sm:px-6 lg:px-10">
             <div class="flex">
-                <div class="flex-1 w-2/3">
+                <div class="flex-1 md:w-2/3">
                     
                     <div class="flex">
                         <div class="flex-initial pr-2">
@@ -28,8 +28,8 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-row text-sm mt-4">
-                        <div class="flex flex-col w-1/2">
+                    <div class="flex md:flex-row flex-col text-sm mt-4">
+                        <div class="flex flex-col md:w-1/2">
                             <div class="flex-1 flex flex-row border-b border-gray-300">
                                 <div class="flex-1 p-2 text-gray-600 font-thin text-sm">Market Cap</div>
                                 <div class="flex-initial p-2 font-bold">{{ getCurrencySymbol }}{{  addCommasToNumber(filterTokenData.market_cap)  }}
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col w-1/2">
+                        <div class="flex flex-col md:w-1/2">
                             <div class="flex-1 flex flex-row border-b border-gray-300">
                                 <div class="flex-1 p-2 text-gray-600 font-thin text-sm">Circulating Supply</div>
                                 <div class="flex-initial p-2 font-bold">{{ getCurrencySymbol }}{{
@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="w-1/3">
+                <div class="md:w-1/3">
                     
                 </div>
             </div>
@@ -75,19 +75,19 @@
             <div class="mt-8">
                 <ul class="flex mb-0 list-none flex-wrap pt-3 flex-row border-b border-gray-300">
                     <li class="-mb-px mr-2 last:mr-0 flex-0 text-center">
-                        <a class="text-sm text-gray-600 font-bold px-6 py-3 pl-2 block leading-normal no-underline cursor-pointer"
+                        <a class="text-sm text-gray-600 font-bold px-2 py-3 pl-2 block leading-normal no-underline cursor-pointer"
                             v-on:click="toggleTabs(0)"
                             v-bind:class="{ 'border-none': openTab !== 0, 'border-b-2 border-green-400 text-green-400': openTab === 0 }">
                             Overview
                         </a>
                     </li>
-                    <li class="-mb-px mr-2 last:mr-0 flex-0 text-center">
+                    <!-- <li class="-mb-px mr-2 last:mr-0 flex-0 text-center">
                         <a class="text-sm text-gray-600 font-bold px-5 py-3 block leading-normal no-underline cursor-pointer"
                             v-on:click="toggleTabs(1)"
                             v-bind:class="{ 'border-none': openTab !== 1, 'border-b-2 border-green-400 text-green-400': openTab === 1 }">
                             Markets
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
 
@@ -104,13 +104,13 @@
                                 </div>
                             </div>
 
-                            <div class="mx-auto text-left w-full flex">
-                                <div class="flex-1">
+                            <div class="mx-auto text-left w-full md:flex-row flex-col flex">
+                                <div class="flex-1 md:w-2/3">
                                     <Graph 
                                     :tokenData="filterTokenData"
                                     :filteredData="filteredMarketChartData"/>
                                 </div>
-                                <div class="flex-1 bg-gray-100 shadow-sm border border-gray-300 ml-8 px-4 py-6 rounded-md">
+                                <div class="flex-initial md:w-1/3 bg-gray-100 border border-gray-300 md:ml-8 md:my-0 my-8 px-4 py-6 rounded-md">
                                     <h2 class="text-2xl font-bold mb-2">{{ filterTokenData.symbol.toUpperCase() }} Price Statistics</h2>
                                     <div class="flex flex-col text-sm text-gray-600">
                                     <div class="flex-1 flex border-b border-gray-300 py-3">

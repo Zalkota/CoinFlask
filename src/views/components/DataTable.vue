@@ -43,22 +43,18 @@
         <div class="overflow-x-auto">
              <t-table
                :headers="[' ', '#', 'Coin', ' ', ' ',  'Price', '1h', '24h', '7d', '24h Volume', 'Market Cap', 'Last 7 Days']"
-               class="w-full px-6 py-12 border-b border-t border-gray-300 text-left text-sm leading-4 font-medium text-gray-800 tracking-wider"
+               class="w-full px-6 py-12 b text-left text-sm leading-4 font-medium text-gray-800 tracking-wider"
                :data="tableData"
              >
 
                <template slot="row" slot-scope="props" >
-                 <tr class="hover:bg-gray-100" v-cloak v-on:click="reroute(props.row.name)" v-show="getSpinnerBoolean == false && getNetworkErrorBoolean == false && tableData.length > 0">
+                 <tr class="hover:bg-gray-100 cursor-pointer" v-cloak v-on:click="reroute(props.row.name)" v-show="getSpinnerBoolean == false && getNetworkErrorBoolean == false && tableData.length > 0">
                    <td :class="[props.tdClass, 'py-2  text-center ']">
                     <button v-on:click="animateHeart()" >
                         <div :ref="props.row.id" :class="checkFavorite(props.row.id)">
                         </div>
                     </button>
-                    <!-- <vue-star data-cy="addFavorite" animate="animated bounceIn" color="rgb(250, 210, 0)" ><img slot="icon" v-on:click="emitFavoriteToggleEvent(props.row.id)" class="h-8 star-button" style="max-width: none;" :src="checkFavorite(props.row.id)" alt="Favorite" /></vue-star> -->
-                    <!-- :class="{'text-green-500': props.row.price_change_percentage_1h_in_currency >= 0, 'text-red-500': props.row.price_change_percentage_1h_in_currency < 0 }" -->
                     <button data-cy="addFavorite" v-on:click="emitFavoriteToggleEvent(props.row.id)"><img class="h-8 star-button" style="max-width: none;" :src="returnFavoriteImage(props.row.id)" alt="Favorite" /></button>
-                     <!-- <button data-cy="addFavorite" v-if="!checkFavorite(props.row.id)" v-on:click="emitAddFavoriteEvent(props.row.id)"><img class="h-8 star-button" style="max-width: none;" src="@/assets/images/icon-star.svg" alt="Favorite" /></button>
-                     <button data-cy="removeFavorite" v-if="checkFavorite(props.row.id)" v-on:click="emitRemoveFavoriteEvent(props.row.id)"><img class=" h-8 star-button" style="max-width: none;" src="@/assets/images/icon-star-active.svg" alt="Favorite" /></button> -->
                    </td>
                    <td :class="[props.tdClass, 'py-2 pr-2 text-left']">
                      {{ props.row.market_cap_rank }}
