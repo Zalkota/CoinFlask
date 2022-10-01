@@ -22,7 +22,6 @@ export default {
     variableSelectionEvent(payload) { 
       this.variableSelection = payload
       this.$emit('variableSelectionEvent', payload )
-      console.log('payload', payload)
     }
   }
 

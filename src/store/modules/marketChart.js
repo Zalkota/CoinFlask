@@ -54,7 +54,7 @@ export default {
     actions: {
 
         async fetchMarketChart({state, commit}, payload) {
-                console.log("vuex fetchMarketChart", payload)
+                console.log("vuex fetchMarketChart", payload, state.marketChartParameters)
                 let tokenName = payload.toLowerCase()
                 let result = await coinGeckoClient.coins.fetchMarketChart(tokenName, state.marketChartParameters)
                 let responseStatus = result.code

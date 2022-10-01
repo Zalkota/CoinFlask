@@ -103,6 +103,7 @@
                                         filterTokenData.symbol.toUpperCase()  }}/{{  getCurrency.toUpperCase()  }})</h1>
                                 </div>
                             </div>
+                            
 
                             <div class="mx-auto text-left w-full md:flex-row flex-col flex">
                                 <div class="flex-1 md:w-2/3">
@@ -209,7 +210,8 @@ import Navbar from "./components/Navbar.vue";
 import BreadCrumb from "./components/BreadCrumb.vue";
 import Graph from "./components/d3-templates/Graph_area_v2.vue";
 import MathHelper from "../js/math-helper.js";
-
+import 'regenerator-runtime/runtime'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'DetailView',
@@ -277,10 +279,11 @@ export default {
 
     created() {
         // dispatch update timeFrame state variable
-        this.$store.dispatch("setTimeFrame", "max");
+        this.$store.commit("setTimeFrame", "max");
+        // this.setTimeFrame()
 
         // dispatch update market chart parameters with new volume
-        this.$store.dispatch("updateMarketChartParams");
+        this.$store.commit("updateMarketChartParams");
 
         // fetch market chart data from coinGecko API by coin
         this.$store.dispatch("fetchMarketChart", this.filterTokenData.name);
@@ -289,6 +292,8 @@ export default {
         
     },
     methods: {
+
+        // ...mapActions(['setTimeFrame']),
 
         toggleTabs(tabNumber) {
             this.openTab = tabNumber

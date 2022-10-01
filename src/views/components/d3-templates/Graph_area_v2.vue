@@ -11,7 +11,7 @@
                   />
                 </div>
                 <div class="md:flex-1 bg-white">
-                  
+                  <button v-on:click="testUpdate()">UPDATE</button>
                 </div>
                 <div class="inline-flex  m-1">
                   <buttonSelector 
@@ -68,11 +68,10 @@ export default {
       bisectDate: null,
       time: 0,
       selectedData: null,
-      coinSelection: "bitcoin",
 
       buttonSelectorData: [{"display" : "Price", "value": "price_usd"}, {"display" : "Market Cap", "value": "market_cap"}, {"display" : "Volume", "value": "24h_vol"}],
-      buttonSelectorTimeFrame: [{"display" : "24h", "value": "1"}, {"display" : "7d", "value": "7"}, {"display" : "14d", "value": "14"}, {"display" : "30d", "value": "30"}, {"display" : "Max", "value": "max"}],
-      variableSelection: "price_usd"
+      buttonSelectorTimeFrame: [{"display" : "Max", "value": "max"}, {"display" : "24h", "value": "1"}, {"display" : "7d", "value": "7"}, {"display" : "14d", "value": "14"}, {"display" : "30d", "value": "30"}],
+      variableSelection: "market_cap"
     }
   },
   mounted() {
@@ -81,10 +80,6 @@ export default {
     const HEIGHT = 500 - MARGIN.TOP - MARGIN.BOTTOM
     this.HEIGHT = HEIGHT
     this.WIDTH = WIDTH
-
-    // const svg = d3.select("#chart-area").append("svg")
-    //   .attr("width", WIDTH + MARGIN.LEFT + MARGIN.RIGHT)
-    //   .attr("height", HEIGHT + MARGIN.TOP + MARGIN.BOTTOM)
 
     const svg = d3.select("#chart-area").append("svg")
       .attr("width", WIDTH + MARGIN.LEFT + MARGIN.RIGHT)
@@ -179,10 +174,34 @@ export default {
       .attr("class", "y axis")
       .attr("transform", `translate(${WIDTH}, 0)`)
 
+
+    console.log("update... ", this.filteredData)
+    console.log("type... ", this.variableSelection)
+
+    
+
+
     this.update()
+
+    this.$store.commit("setTimeFrame", "max");
+
+    // dispatch update market chart parameters with new volume
+    this.$store.commit("updateMarketChartParams");
+
+    // dispatch request new market chart data with new params
+    this.$store.dispatch("fetchMarketChart", this.tokenData.name);
+    this.update()
+    
   },
 
+
   computed: {
+    filteredMarketChartData() {
+            
+            let data = this.$store.getters.getFilteredMarketChartData;
+            console.log("filteredMarketChartData", data)
+            return data
+        },
     timeFrame() {
         return this.$store.getters.getTimeFrame;
     },
@@ -193,7 +212,7 @@ export default {
     update() {
 
        // Define local data and selection variables
-        let data = this.filteredData
+        let data = this.filteredMarketChartData
         let yValue = this.variableSelection
 
         // Define transition time
@@ -361,6 +380,13 @@ export default {
           // update chart with new data with corresponding timeFrame
           this.update()
     },
+
+    testUpdate() {
+      console.log("update... ", this.filteredData)
+      console.log("type... ", this.variableSelection)
+      this.update()
+      
+    }
 
   }
 }
