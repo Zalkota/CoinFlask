@@ -11,7 +11,6 @@
                   />
                 </div>
                 <div class="md:flex-1 bg-white">
-                  <button v-on:click="testUpdate()">UPDATE</button>
                 </div>
                 <div class="inline-flex  m-1">
                   <buttonSelector 
@@ -153,18 +152,6 @@ export default {
       .tickFormat(d => `${parseInt(d / 1000)}k`)
       .tickSize(-WIDTH)
       
-      // .call(g => g.selectAll(".tick").call(grid))
-      
-
-    // A helper method for generating grid lines on the y-axis.
-  function grid(tick) {
-    return tick.append("line")
-        .attr("class", "grid")
-        .attr("x2", WIDTH - MARGIN.LEFT - MARGIN.RIGHT)
-        .attr("stroke", "currentColor")
-        .attr("stroke-opacity", 0.1);
-  }
-      
 
     // axis groups
     this.xAxis = this.g.append("g")
@@ -174,32 +161,29 @@ export default {
       .attr("class", "y axis")
       .attr("transform", `translate(${WIDTH}, 0)`)
 
-
-    console.log("update... ", this.filteredData)
-    console.log("type... ", this.variableSelection)
-
     
-
-
-    this.update()
-
-    this.$store.commit("setTimeFrame", "max");
-
-    // dispatch update market chart parameters with new volume
-    this.$store.commit("updateMarketChartParams");
-
-    // dispatch request new market chart data with new params
-    this.$store.dispatch("fetchMarketChart", this.tokenData.name);
-    this.update()
     
+  },
+
+  created() {
+    // Update the graph if filterMarketChartData is updated in Vuex
+    let unsubscribe = this.$store.subscribe((mutation, state) => {
+      if (mutation.type == 'filterMarketChartData') {
+        this.update()
+        console.log("updating graph")
+      }
+    })
+  },
+
+  
+  beforeDestroy() {
+    this.unsubscribe();
   },
 
 
   computed: {
     filteredMarketChartData() {
-            
             let data = this.$store.getters.getFilteredMarketChartData;
-            console.log("filteredMarketChartData", data)
             return data
         },
     timeFrame() {
@@ -353,11 +337,6 @@ export default {
 
     },
 
-    // TODO
-    onChange(event) {
-      this.update()
-    },
-
     // Run update when the variable changes
     readVariableSelectionEvent(payload) {
           console.log("readVariableSelectionEvent", payload)
@@ -381,13 +360,7 @@ export default {
           this.update()
     },
 
-    testUpdate() {
-      console.log("update... ", this.filteredData)
-      console.log("type... ", this.variableSelection)
-      this.update()
-      
-    }
-
   }
+
 }
 </script>

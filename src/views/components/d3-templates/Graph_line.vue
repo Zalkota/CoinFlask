@@ -50,7 +50,8 @@
 <script>
 
 import * as d3 from "d3";
-import data from '../../assets/d3-data/coins.json'
+import data from '../../../assets/d3-data/coins.json'
+import filteredMarketChartData from '../../../assets/d3-data/coins_2.json'
 import d3Tip from "d3-tip";
 
 
@@ -174,12 +175,18 @@ export default {
   },
 
   computed: {
+    filteredMarketChartData() {
+            
+            let data = this.$store.getters.getFilteredMarketChartData;
+            console.log("filteredMarketChartData", data)
+            return data
+        },
   },
 
   methods: {
 
     update() {
-        let data = this.filteredData[this.coinSelection]
+        let data = this.filteredMarketChartData
         let yValue = this.variableSelection
         const t = d3.transition().duration(500)
 
