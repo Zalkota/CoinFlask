@@ -48,7 +48,7 @@
              >
 
                <template slot="row" slot-scope="props" >
-                 <tr class="hover:bg-gray-100 cursor-pointer" v-cloak v-on:click="reroute(props.row.name)" v-show="getSpinnerBoolean == false && getNetworkErrorBoolean == false && tableData.length > 0">
+                 <tr class="hover:bg-gray-100 cursor-pointer" v-cloak v-show="getSpinnerBoolean == false && getNetworkErrorBoolean == false && tableData.length > 0">
                    <td :class="[props.tdClass, 'py-2  text-center ']">
                     <button v-on:click="animateHeart()" >
                         <div :ref="props.row.id" :class="checkFavorite(props.row.id)">
@@ -56,45 +56,43 @@
                     </button>
                     <button data-cy="addFavorite" v-on:click="emitFavoriteToggleEvent(props.row.id)"><img class="h-8 star-button" style="max-width: none;" :src="returnFavoriteImage(props.row.id)" alt="Favorite" /></button>
                    </td>
-                   <td :class="[props.tdClass, 'py-2 pr-2 text-left']">
+                   <td v-on:click="reroute(props.row.name)" :class="[props.tdClass, 'py-2 pr-2 text-left']">
                      {{ props.row.market_cap_rank }}
                    </td>
-
-                   <td :class="[props.tdClass, 'py-2 text-left pr-0 ']">
+                   <td v-on:click="reroute(props.row.name)" :class="[props.tdClass, 'py-2 text-left pr-0 ']">
                      <img class="block h-6" :src="props.row.image" alt="CoinFlask Logo" />
                    </td>
-                   <td :class="[props.tdClass, 'py-2 text-left pl-0']">
-                       <!-- <router-link class="no-underline text-gray-800 font-bold " :to="{name: 'detailView', params: {tokenName: props.row.name}}">{{ props.row.name }}</router-link> -->
+                   <td v-on:click="reroute(props.row.name)" :class="[props.tdClass, 'py-2 text-left pl-0']">
                        {{ props.row.name }}
                    </td>
-                   <td :class="[props.tdClass, 'py-2 text-left pl-0 text-xs font-thin text-gray-700 uppercase']">
+                   <td v-on:click="reroute(props.row.name)" :class="[props.tdClass, 'py-2 text-left pl-0 text-xs font-thin text-gray-700 uppercase']">
                        {{ props.row.symbol }}
                    </td>
-                   <td :class="[props.tdClass, 'py-2']">
+                   <td v-on:click="reroute(props.row.name)" :class="[props.tdClass, 'py-2']">
                      {{ getCurrencySymbol }}{{ addCommasToNumber(props.row.current_price) }}
                    </td>
-                   <td :class="props.tdClass">
+                   <td v-on:click="reroute(props.row.name)" :class="props.tdClass">
                      <span :class="{'text-green-500': props.row.price_change_percentage_1h_in_currency >= 0, 'text-red-500': props.row.price_change_percentage_1h_in_currency < 0 }">
                           {{ convertToPercentage(props.row.price_change_percentage_1h_in_currency) }}
                      </span>
                    </td>
-                   <td :class="props.tdClass">
+                   <td v-on:click="reroute(props.row.name)" :class="props.tdClass">
                      <span :class="{'text-green-500': props.row.price_change_percentage_24h_in_currency >= 0, 'text-red-500': props.row.price_change_percentage_24h_in_currency < 0 }">
                          {{ convertToPercentage(props.row.price_change_percentage_24h_in_currency) }}
                      </span>
                    </td>
-                   <td :class="props.tdClass">
+                   <td v-on:click="reroute(props.row.name)" :class="props.tdClass">
                      <span :class="{'text-green-500': props.row.price_change_percentage_7d_in_currency >= 0, 'text-red-500': props.row.price_change_percentage_7d_in_currency < 0 }">
                          {{ convertToPercentage(props.row.price_change_percentage_7d_in_currency) }}
                      </span>
                    </td>
-                   <td :class="props.tdClass">
+                   <td v-on:click="reroute(props.row.name)" :class="props.tdClass">
                      {{ getCurrencySymbol }}{{ addCommasToNumber(props.row.total_volume) }}
                    </td>
-                   <td :class="props.tdClass">
+                   <td v-on:click="reroute(props.row.name)" :class="props.tdClass">
                      {{ getCurrencySymbol }}{{ addCommasToNumber(props.row.market_cap) }}
                    </td>
-                   <td :class="[props.tdClass, 'pr-0 ']">
+                   <td v-on:click="reroute(props.row.name)" :class="[props.tdClass, 'pr-0 ']">
                      <Sparkline
                      v-bind:data = "props.row.sparkline_in_7d.price"
                      v-bind:change = "props.row.price_change_percentage_7d_in_currency"/>
@@ -210,23 +208,10 @@ export default {
       checkFavorite(id) {
           let position = this.favoriteMarketData.map((element) => element.id).indexOf(id)
           if (position > -1) {
-
-              this.$refs[id].addEventListener("animationend",function(){
-                console.log(id);
-                })
-
               return true
-
           }
           return false
       },
-
-      animateHeart() {
-          console.log("CLICK")
-          this.animate = !this.animate
-      },
-
-
   }
 }
 </script>

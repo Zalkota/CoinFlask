@@ -167,7 +167,7 @@ export default {
 
   created() {
     // Update the graph if filterMarketChartData is updated in Vuex
-    let unsubscribe = this.$store.subscribe((mutation, state) => {
+    this.unsubscribe = this.$store.subscribe((mutation, state) => {
       if (mutation.type == 'filterMarketChartData') {
         this.update()
         console.log("updating graph")
