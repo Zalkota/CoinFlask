@@ -48,7 +48,6 @@ export default {
     return {
       
       data: data,
-      interval: null,
       buttonText: "Play",
       g: null,
       continentColor: d3.scaleOrdinal(d3.schemePastel1),
@@ -63,14 +62,11 @@ export default {
       yAxis: null,
       xAxisCall: null,
       yAxisCall: null,
-      timeLabel: null,
       bisectDate: null,
-      time: 0,
-      selectedData: null,
 
       buttonSelectorData: [{"display" : "Price", "value": "price_usd"}, {"display" : "Market Cap", "value": "market_cap"}, {"display" : "Volume", "value": "24h_vol"}],
       buttonSelectorTimeFrame: [{"display" : "Max", "value": "max"}, {"display" : "24h", "value": "1"}, {"display" : "7d", "value": "7"}, {"display" : "14d", "value": "14"}, {"display" : "30d", "value": "30"}],
-      variableSelection: "market_cap"
+      variableSelection: "price_usd"
     }
   },
   mounted() {
@@ -160,8 +156,6 @@ export default {
     this.yAxis = this.g.append("g")
       .attr("class", "y axis")
       .attr("transform", `translate(${WIDTH}, 0)`)
-
-    
     
   },
 
@@ -215,17 +209,6 @@ export default {
           const s = "$" + formatSi(x)
           return s
         }
-
-        // fix for format values
-        // const formatSi2 = d3.format(".2f")
-        // function formatAbbreviation(x) {
-        //   const s = formatSi2(x)
-        //   switch (s[s.length - 1]) {
-        //     case "B": return s.slice(0, -1) + "B" // billions
-        //     case "k": return s.slice(0, -1) + "K" // thousands
-        //   }
-        // return s
-        // }
 
         // update axes
         this.xAxisCall.scale(this.x)

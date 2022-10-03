@@ -18,6 +18,7 @@
     methods: {
          onSubmit(){
             this.query = escape(this.query)
+            
 
             if (this.$route.params.query != this.query) {
                 //Send user to search.vue
@@ -25,11 +26,12 @@
             }
 
             //trigger fetchSearchResults
-            this.$store.commit('setSearchQuery', this.query)
+            this.$store.commit('setSearchQuery', this.query.toLowerCase())
 
          },
          setInitialQuery(newQuery){
              this.query = newQuery
+             
          },
 
          onSearchCallback(query){

@@ -211,7 +211,6 @@ import BreadCrumb from "./components/BreadCrumb.vue";
 import Graph from "./components/d3-templates/Graph_area_v2.vue";
 import MathHelper from "../js/math-helper.js";
 import 'regenerator-runtime/runtime'
-import { mapActions } from 'vuex'
 
 export default {
     name: 'DetailView',
@@ -280,7 +279,6 @@ export default {
     created() {
         // dispatch update timeFrame state variable
         this.$store.commit("setTimeFrame", "max");
-        // this.setTimeFrame()
 
         // dispatch update market chart parameters with new volume
         this.$store.commit("updateMarketChartParams");

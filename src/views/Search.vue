@@ -102,12 +102,13 @@ export default {
   methods: {
 
       populateMarketSearchData(){
-          if(this.marketData.length > 0 ){
-              for(let i = 0; i < this.marketData.length; i++) {
-                  this.marketSearchData.push(this.marketData[i].id)
-                  this.marketSearchData.push(this.marketData[i].symbol)
-              }
-          } console.log("this.marketSearchData", this.marketSearchData)
+          if(this.marketData.length > 0 ) {
+            this.marketData.forEach(x => {
+                x.push(this.marketData[i].id)
+                x.push(this.marketData[i].symbol)
+            })
+          } 
+          console.log("this.marketSearchData", this.marketSearchData)
       },
   }
 }
