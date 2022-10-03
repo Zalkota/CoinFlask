@@ -4,12 +4,14 @@ import CoinGecko from 'coingecko-api'
 const coinGeckoClient = new CoinGecko();
 import createPersistedState from 'vuex-persistedstate';
 import marketChart from './modules/marketChart.js'
+import search from './modules/search.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
-        marketChart
+        marketChart,
+        search
     },
     state: {
         marketData: [],
@@ -25,8 +27,6 @@ export default new Vuex.Store({
             order: CoinGecko.ORDER.MARKET_CAP_DESC,
             sparkline: true,
         },
-        searchQuery: [],
-        searchResults: [],
 
     },
     plugins: [createPersistedState()],
@@ -47,9 +47,6 @@ export default new Vuex.Store({
 
         getNetworkErrorBoolean: state => state.networkError,
 
-        getSearchQuery: state => state.searchQuery,
-
-        getSearchResults: state => state.searchResults,
     },
     mutations: {
         setMarketData(state, payload) {
@@ -81,42 +78,17 @@ export default new Vuex.Store({
             state.networkError = payload;
         },
 
-        setSearchQuery(state, payload) {
-            state.searchQuery = payload;
-        },
 
-        setSearchResults(state, payload) {
-
-            state.searchResults.push(payload);
-            console.log("setSearchResults", state.searchResults)
-        },
     },
     // async calls must be placed in actions
     actions: {
 
 
 
-        async setSearchResults({state, commit}){
-            state.searchResults = []
-            if (state.searchQuery && state.searchQuery.length > 0){
-
-                let searchId = state.marketData.filter(x => state.searchQuery.includes(x.id.toLowerCase()) || state.searchQuery.includes(x.symbol.toLowerCase()))
-
-                if (searchId[0] != undefined){
-                    commit('setSearchResults', searchId[0])
-                }
-                console.log("push results", state.searchResults[0])
-            } else {
-                commit('setSearchResults', [])
-                console.log("state.searchResults", state.searchResults)
-            }
-        },
-
         async setMarketData({state, commit}) {
             commit('setShowSpinner', true)
             let result = await coinGeckoClient.coins.markets(state.marketParameters)
             let responseStatus = result.code
-            console.log("marketData: ", state.marketData)
 
             if (responseStatus == 200) {
                 let marketData = result.data
